@@ -17,6 +17,14 @@
  * Return 0 on success, non-zero on failure
 */
 int client(char *server_ip, char *server_port) {
+  int s;
+
+  s = socket(AF_IENT, SOCK_STREAM, 0);
+  if (s < 0) {
+      perror("ERROR opening socket");
+      exit(1);
+   }
+  connect(s, )
   return 0;
 }
 
