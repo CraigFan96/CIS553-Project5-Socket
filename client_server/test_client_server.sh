@@ -39,16 +39,16 @@ printf "_________________________________________\n\n"
 # Run tests
 ###############################################
 printf "\nTesting C client -> C server\n\n"
-test ./client-c.c ./server-c.c $PORT
+test ./client-c ./server-c $PORT
 
 printf "Testing Python client -> Python server\n\n"
 test "python client-python.py" "python server-python.py" $PORT
 
 printf "\nTesting Python client -> C server\n\n"
-test "python client-python.py" ./server-c.c $PORT
+test "python client-python.py" ./server-c $PORT
 
 printf "\nTesting C client -> Python server\n\n"
-test ./client-c.c "python server-python.py" $PORT
+test ./client-c "python server-python.py" $PORT
 
 
 ###############################################
