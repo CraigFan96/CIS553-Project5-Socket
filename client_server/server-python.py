@@ -22,7 +22,8 @@ def server(server_port):
         while data:
             sys.stdout.write(data)
             data = conn.recv(RECV_BUFFER_SIZE)
-            
+        sys.stdout.flush()
+
     conn.close()
 
 
