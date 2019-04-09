@@ -12,7 +12,7 @@ ALL_CORRECT=true
 function compare {
   if diff -q test_message.txt test_output.txt; then
     printf "\nSUCCESS: Message received matches message sent!\n"
-  else
+  elseali
     ALL_CORRECT=false
     diff test_message.txt test_output.txt
   fi

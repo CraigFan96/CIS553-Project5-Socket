@@ -30,7 +30,7 @@ def main():
         sys.exit("Usage: python client-python.py [Server IP] [Server Port] < [message]")
     server_ip = sys.argv[1]
     server_port = int(sys.argv[2])
-    print(sys.stdin)
+
     client(server_ip, server_port)
 
 
