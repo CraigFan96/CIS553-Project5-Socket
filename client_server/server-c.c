@@ -18,7 +18,23 @@
  * Return 0 on success, non-zero on failure
 */
 int server(char *server_port) {
-    return 0;
+	int s;
+	struct sockaddr_in serv_addr;
+
+	serv_addr.sin_family = AF_INET;
+  	serv_addr.sin_addr.s_addr = INADDR_ANY;
+  	serv_addr.sin_port = htons(atoi(server_port));
+
+    s = socket(AF_IENT, SOCK_STREAM, 0);
+    if (s < 0) {
+    	perror("ERROR opening socket");
+    	exit(1);
+	}
+
+	if (bind(s, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0 ) {
+		perror("ERROR on bind");
+		exit(1);
+	}
 }
 
 /*
