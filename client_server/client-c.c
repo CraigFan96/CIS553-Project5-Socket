@@ -10,6 +10,7 @@
 #include <errno.h>
 
 #define SEND_BUFFER_SIZE 2048
+#define SA struct sockaddr
 
 
 /* TODO: client()
@@ -18,13 +19,32 @@
 */
 int client(char *server_ip, char *server_port) {
   int s;
-
-  s = socket(AF_IENT, SOCK_STREAM, 0);
+  char input[SEND_BUFFER_SIZE];
+  int bytes_sent, len;
+  struct sockaddr_in servaddr;
+  // create and verify socket
+  s = socket(AF_INET, SOCK_STREAM, 0);
   if (s < 0) {
-      perror("ERROR opening socket");
+      printf("Socket creation failure");
       exit(1);
    }
-  connect(s, )
+  // assign IP, PORT
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = inet_addr(server_ip);
+  servaddr.sin_port = htons(server_port);
+
+  // connect the client socket to server socket
+  if (connect(s, (SA*)&servaddr, sizeof(servaddr)) != 0) {
+    printf("Connection with server failed\n");
+    exit(0);
+  } else {
+    printf("Connected to the server\n");
+    while (fgets (input, SEND_BUFFER_SIZE, stdin)) {
+      len = strlen(input);
+      bytes_sent = send(s, input, len, 0);
+    }
+  }
+  close(s);
   return 0;
 }
 
