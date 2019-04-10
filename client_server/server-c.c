@@ -18,14 +18,16 @@
  * Return 0 on success, non-zero on failure
 */
 int server(char *server_port) {
-	int s;
+	int s, client_length, c, n;
 	struct sockaddr_in serv_addr;
+	struct sockaddr_in client_addr;
+	char buf[RECV_BUFFER_SIZE];
 
 	serv_addr.sin_family = AF_INET;
   	serv_addr.sin_addr.s_addr = INADDR_ANY;
   	serv_addr.sin_port = htons(atoi(server_port));
 
-    s = socket(AF_IENT, SOCK_STREAM, 0);
+    s = socket(AF_INET, SOCK_STREAM, 0);
     if (s < 0) {
     	perror("ERROR opening socket");
     	exit(1);
@@ -35,6 +37,29 @@ int server(char *server_port) {
 		perror("ERROR on bind");
 		exit(1);
 	}
+
+	if (listen(s, QUEUE_LENGTH) < 0) {
+		perror("ERROR listening");
+		exit(1);
+	}
+
+	client_length = sizeof(client_addr);
+
+	while (1) {
+		c = accept(s, (struct sockaddr * ) &client_addr, &client_length);
+		if (c < 0) {
+			perror("ERROR on accept");
+		}
+
+		bzero(buf, RECV_BUFFER_SIZE);
+		n = read(c, buf, RECV_BUFFER_SIZE);
+		if (n < 0) {
+			perror("ERROR reading socket");
+		} else {
+			printf("%s", buf);
+		}
+	}
+
 }
 
 /*

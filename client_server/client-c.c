@@ -30,11 +30,11 @@ int client(char *server_ip, char *server_port) {
    }
   // assign IP, PORT
   servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = inet_addr(server_ip);
-  servaddr.sin_port = htons(server_port);
+  servaddr.sin_addr.s_addr = htonl(server_ip);
+  servaddr.sin_port = htons(atoi(server_port));
 
   // connect the client socket to server socket
-  if (connect(s, (SA*)&servaddr, sizeof(servaddr)) != 0) {
+  if (connect(s, (SA*)&servaddr, sizeof(servaddr)) < 0) {
     printf("Connection with server failed\n");
     exit(0);
   } else {
