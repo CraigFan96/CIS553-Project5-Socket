@@ -58,6 +58,7 @@ int server(char *server_port) {
 		} else {
 			printf("%s", buf);
 		}
+		fflush(stdout);
 	}
 
 }

@@ -18,7 +18,7 @@
  * Return 0 on success, non-zero on failure
 */
 int client(char *server_ip, char *server_port) {
-  int s;
+  int s, rcode;
   char input[SEND_BUFFER_SIZE];
   int bytes_sent, len;
   struct sockaddr_in servaddr;
@@ -30,11 +30,12 @@ int client(char *server_ip, char *server_port) {
    }
   // assign IP, PORT
   servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = htonl(server_ip);
+  servaddr.sin_addr.s_addr = inet_addr(server_ip);
   servaddr.sin_port = htons(atoi(server_port));
 
   // connect the client socket to server socket
-  if (connect(s, (SA*)&servaddr, sizeof(servaddr)) < 0) {
+  rcode = connect(s, (SA*)&servaddr, sizeof(servaddr));
+  if (rcode < 0) {
     printf("Connection with server failed\n");
     exit(0);
   } else {
